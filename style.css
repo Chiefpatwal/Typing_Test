@@ -17,7 +17,7 @@ body, .text-input,text-display,container {
 }
 
 .container {
-  background-color: #3f4040;
+  background-color: #8e9295;
   padding: 1rem;
   border-radius: .5rem;
   width: 700px;
@@ -87,3 +87,12 @@ color:#f8e725;
   font-weight: bold;
   color: #F0DB45;
 }
+.seconds{
+  position: relative;
+  top: 7.5;
+  right:32rem;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #F0DB45;
+}
+

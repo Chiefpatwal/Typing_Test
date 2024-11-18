@@ -6,31 +6,49 @@ const score = document.getElementById('score');
 let timecurr = 0;
 let correct = 0;
 let incorrect = 0;
+let timerStarted = false; // To ensure the timer starts only once
 
 textinput.addEventListener('input', () => {
+  if (!timerStarted) {
+    timerStarted = true; // Start timer only once
+    clock();
+  }
+
   const arr1 = textdisplay.querySelectorAll('span');
   const arr2 = textinput.value.split('');
   let flag = true;
 
   arr1.forEach((charspan, index) => {
+
+    
     const char = arr2[index];
     if (char == null) {
       charspan.classList.remove('correct', 'incorrect'); 
       flag = false;
     } else if (char === charspan.innerText) {
+      if (!charspan.classList.contains('correct') && char===" ") { // Increment only for new correct characters
+        correct++;
+      }
       charspan.classList.add('correct');
       charspan.classList.remove('incorrect');
-      correct++;
     } else {
+      if (!charspan.classList.contains('incorrect')) { // Increment only for new correct characters
+        correct--;
+      }
       charspan.classList.add('incorrect');
-      charspan.classList.remove('correct');
-      incorrect++; 
-      flag = false;
+    charspan.classList.remove('correct');
+    
+    flag = false;
     }
+    scoredisplay();
   });
 
   if (flag) {
-    getnext(); 
+   
+    getnext();
+    correct=0;
+    
+    timerStarted = false; 
   }
 });
 
@@ -46,7 +64,6 @@ async function getrandom() {
   return quotes[Math.floor(Math.random() * quotes.length)];
 }
 
-
 async function getnext() {
   const text = await getrandom();
   textdisplay.innerHTML = '';
@@ -57,7 +74,6 @@ async function getnext() {
   });
 
   textinput.value = ''; 
-
   clock(); 
 }
 
@@ -76,18 +92,21 @@ function gettime() {
 
   if (timecurr == 61) {
     clock(); 
+    correct=0;
+    scoredisplay();
+    getnext();
+    
   }
 }
 
 function scored() {
-  return correct - incorrect;
+  return (correct/60)*timecurr*100;
 }
 
 async function scoredisplay() {
   const currentScore = scored();
-  score.innerText = currentScore;
+  score.innerText = `: ${currentScore}`; // Display score with a label
 }
-
 
 scoredisplay();
 getnext();
