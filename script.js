@@ -3,12 +3,12 @@ const textinput = document.getElementById('text-input');
 const m_text = 'https://api.quotable.io/random'; 
 const time = document.getElementById('timer');
 const score = document.getElementById('score');
-let correct=0;
-let incorret=0;
-
+let timecurr = 0;
+let correct = 0;
+let incorrect = 0;
 
 textinput.addEventListener('input', () => {
-  const arr1 = textdisplay.querySelectorAll('span'); // Use querySelectorAll for all spans
+  const arr1 = textdisplay.querySelectorAll('span');
   const arr2 = textinput.value.split('');
   let flag = true;
 
@@ -24,7 +24,7 @@ textinput.addEventListener('input', () => {
     } else {
       charspan.classList.add('incorrect');
       charspan.classList.remove('correct');
-      incorret++;
+      incorrect++; 
       flag = false;
     }
   });
@@ -34,25 +34,31 @@ textinput.addEventListener('input', () => {
   }
 });
 
-function getrandom() {
-  return fetch(m_text)
-    .then(response => response.json())
-    .then(data => data.content);
+async function getrandom() {
+  const quotes = [
+    "The only limit to our realization of tomorrow is our doubts of today.",
+    "Do not wait to strike till the iron is hot, but make it hot by striking.",
+    "The future belongs to those who believe in the beauty of their dreams.",
+    "I didnt come this far to only come this far",
+    "When the days are dark night are cold,the winter has arrived get ready because the wall is breaking",
+    "the horrors of the nights says it all , you can see it without watching you can feel it without feeling ,says you know nothing john snow"
+  ];
+  return quotes[Math.floor(Math.random() * quotes.length)];
 }
+
 
 async function getnext() {
   const text = await getrandom();
-  textdisplay.innerHTML = ''; // Clear previous text
+  textdisplay.innerHTML = '';
   text.split('').forEach(character => {
     const charspan = document.createElement('span');
     charspan.innerText = character;
     textdisplay.appendChild(charspan);
   });
 
-  // Clear the input text when new text is fetched
   textinput.value = ''; 
 
-  clock(); // Start the timer
+  clock(); 
 }
 
 let start;
@@ -66,12 +72,22 @@ function clock() {
 
 function gettime() {
   time.innerText = Math.floor((new Date() - start) / 1000);
-  if(time==6){
-    clock()
+  timecurr = time.innerText;
+
+  if (timecurr == 61) {
+    clock(); 
   }
 }
+
 function scored() {
-  
+  return correct - incorrect;
 }
 
+async function scoredisplay() {
+  const currentScore = scored();
+  score.innerText = currentScore;
+}
+
+
+scoredisplay();
 getnext();

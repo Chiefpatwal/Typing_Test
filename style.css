@@ -41,7 +41,7 @@ body, .text-input,text-display,container {
   resize: none;
   padding: .5rem 1rem; 
   font-size:1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   margin-left: calc(1rem+2px);
   margin-right: calc(1rem+2px); 
 }
@@ -72,10 +72,18 @@ color:#f8e725;
   text-decoration: underline;
 }
 .score{
-  color:#f8e725;
-  positon:bottom;
-  top:2rem;
-  right:2rem;
-  font-size:2rem;
-  font-weight:bold;
+  position: absolute;
+  top: 7.5rem;
+  left: 32rem;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #F0DB45;
+}
+.scored{
+  position: absolute;
+  top: 7.5rem;
+  left: 27rem;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #F0DB45;
 }
